@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>optimized tasj manager</title>
+        <style>
+            body{font-family:arial;background:#f4f4f4;padding:20px;}
+            #taskform{margin-bottom:20px;}
+            .task{background:#fff;padding:10px;margin-bottom:10px;border-radius:5px;}
+            .delete-btn{color:red;float:right;cursor:pointer;}
+        </style>
+    </head>
+    <body>
+        <h2>task manager</h2>
+        <form id="taskform">
+            <input type="text" id="taskinput" placeholder="enter task" required>
+            <button type="submit">add task</button>
+        </form>
+        <div id="tasklist"></div>
+        <script>
+            const taskform=document.getElementById('taskform');
+            const taskinput=document.getElementById('taskinput');
+            const tasklist=document.getElementById('tasklist');
+            let tasks=[];
+            function addtask(tasktext){
+                const task={id:date.now(),text:tasktext};
+                tasks.push(task);
+                rendertasks();
+            }
+            function deletetask(id){
+                tasks=tasks.filter(task=>task.id!==id);
+                rendertasks();
+            }
+            function rendertasks (){
+                tasklist.innerHTML='';
+                const fragment=document.createdocumentfragment();
+
+                tasks.foreach(task=>{
+                    const div=document.createelement('div');
+                    div.classname='task';
+                    div.innerHTML=${task.text}<span class="delete-btn" data-id="${task.id}">&times;</span>;
+                    fragment.appendchild(div);
+                });
+                tasklist.appendchild(fragment);
+            }
+    taskform.addeventlistener('submit',function(e){
+    e.preventdefault();
+    const tasktext=taskinput.value.trim();
+    if (tasktext){
+        addtask(tasktext);
+        taskinput.value='';
+    }
+});
+    tasklist.addeventlistener('click',function(e){
+       if (e.target.classlist.contains('delete-btn')){
+           const taskid=parseint(e.target.dataset.id,10);
+           deletetask(taskid);
+        }
+    });
+    </script>
+</body>
+</html>  
